@@ -31,13 +31,14 @@ export const CreateTodo = ({ addTodo }: Props) => {
       <form ref={formRef} className="w-full flex flex-col gap-3 items-center bg-yello" onSubmit={createTodo}>
         <div className="flex flex-col gap-1 w-full max-w-[500px]">
           <small className="text-gray-700 dark:text-gray-300 self-end pr-2">{titleLength}/255</small>
-          <input 
-            className="py-1 px-3 border rounded-md text-lg border-gray-400 dark:border-gray-800 placeholder:italic" 
-            type="text"
+          <textarea
+            autoFocus
+            rows={1}
+            className="py-1 px-3 field-sizing-content resize-none border rounded-md text-lg border-gray-400 dark:border-gray-800 placeholder:italic" 
             name="title"
             placeholder="Add a new task"
             onChange={(e) => {setTitleLength(e.target.value.length)}}
-          />
+          ></textarea>
         </div>
 
         <div className="flex gap-3">
