@@ -1,0 +1,206 @@
+[
+  {
+    "id": 1,
+    "question": "¿Cuál es la salida de este código?",
+    "code": "print(3 * '7')",
+    "answers": ["'777'", "'21'", "21", "777"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 2,
+    "question": "¿Cuál es el resultado de la siguiente expresión?",
+    "code": "3 + 2 + '7'",
+    "answers": ["12", "327", "57", "NaN"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 3,
+    "question": "¿Cuál es la salida de este código?",
+    "code": "print('a' * 3)",
+    "answers": ["aaa", "3", "a3", "Error"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 4,
+    "question": "¿Cuál es el resultado de este código?",
+    "code": "print(len('python'))",
+    "answers": ["6", "5", "7", "Error"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 5,
+    "question": "¿Qué se imprime con este código?",
+    "code": "x = 10\ny = 5\nprint(x - y)",
+    "answers": ["5", "15", "-5", "Error"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 6,
+    "question": "¿Cuál es la salida de este código?",
+    "code": "x = [1, 2, 3]\nprint(x[3])",
+    "answers": ["3", "Error", "None", "0"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 7,
+    "question": "¿Cuál es el resultado de este código?",
+    "code": "x = 5\ny = x + 3\nprint(y)",
+    "answers": ["5", "8", "Error", "None"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 8,
+    "question": "¿Qué se imprime con este código?",
+    "code": "def func(x, y):\n    return x / y\n\nprint(func(10, 5))",
+    "answers": ["2", "Error", "2.0", "0.5"],
+    "correctAnswer": 2
+  },
+  {
+    "id": 9,
+    "question": "¿Cuál es la salida de este código?",
+    "code": "x = [1, 2, 3]\ny = x\nx.append(4)\nprint(y)",
+    "answers": ["[1, 2, 3, 4]", "[1, 2, 3]", "[1, 2, 3, 4, 4]", "Error"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 10,
+    "question": "¿Qué se imprime con este código?",
+    "code": "print('hola'.capitalize())",
+    "answers": ["hola", "Hola", "Error", "None"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 11,
+    "question": "¿Cuál es el resultado de este código?",
+    "code": "x = ['a', 'b', 'c']\nprint(x[0:2])",
+    "answers": ["['a', 'b']", "['a', 'b', 'c']", "['b', 'c']", "Error"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 12,
+    "question": "¿Cuál es la salida de este código?",
+    "code": "x = [1, 2, 3, 4]\nprint(x[-2:])",
+    "answers": ["[3, 4]", "[2, 3]", "[1, 2]", "[2, 3, 4]"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 13,
+    "question": "¿Qué se imprime con este código?",
+    "code": "x = {'a': 1, 'b': 2, 'c': 3}\nprint(x.get('b'))",
+    "answers": ["1", "2", "'b'", "None"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 14,
+    "question": "¿Cuál es el resultado de este código?",
+    "code": "x = {1, 2, 3}\nx.add(4)\nprint(x)",
+    "answers": ["{1, 2, 3, 4}", "{1, 2, 3}", "[1, 2, 3, 4]", "[1, 2, 3]"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 15,
+    "question": "¿Qué se imprime con este código?",
+    "code": "x = {1: 'a', 2: 'b', 3: 'c'}\nprint(x[2])",
+    "answers": ["'a'", "'b'", "2", "Error"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 16,
+    "question": "¿Cuál es el resultado de este código?",
+    "code": "x = 'python'\nprint(x[1:4])",
+    "answers": ["python", "ytho", "yth", "Error"],
+    "correctAnswer": 2
+  },
+  {
+    "id": 17,
+    "question": "¿Cuál es la salida de este código?",
+    "code": "x = 'python'\nprint(x[-4:-1])",
+    "answers": ["python", "ytho", "tho", "Error"],
+    "correctAnswer": 2
+  },
+  {
+    "id": 18,
+    "question": "¿Cuál es el resultado de este código?",
+    "code": "x = 'python'\nprint(x[::-1])",
+    "answers": ["python", "nohtyp", "Error", "None"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 19,
+    "question": "¿Qué se imprime con este código?",
+    "code": "x = 'python'\nprint(x.upper())",
+    "answers": ["python", "PYTHON", "Error", "None"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 20,
+    "question": "¿Cuál es el resultado de este código?",
+    "code": "x = 'hello world'\nprint(x.split())",
+    "answers": [
+      "['hello', 'world']",
+      "['hello world']",
+      "['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd']",
+      "Error"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 21,
+    "question": "¿Qué se imprime con este código?",
+    "code": "x = 'hola'\ny = 'mundo'\nprint(x + y)",
+    "answers": ["'holamundo'", "'hola mundo'", "'hola' + 'mundo'", "Error"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 22,
+    "question": "¿Cuál es el resultado de este código?",
+    "code": "x = 'hola'\nprint(x * 3)",
+    "answers": ["'holaholahola'", "'hola' * 3", "'holahola'", "Error"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 23,
+    "question": "¿Qué se imprime con este código?",
+    "code": "x = [1, 2, 3]\ny = [4, 5, 6]\nprint(x + y)",
+    "answers": [
+      "[1, 2, 3, 4, 5, 6]",
+      "[[1, 2, 3], [4, 5, 6]]",
+      "[1, 2, 3] [4, 5, 6]",
+      "Error"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 24,
+    "question": "¿Cuál es el resultado de este código?",
+    "code": "x = [1, 2, 3]\nprint(x * 3)",
+    "answers": [
+      "[1, 2, 3, 1, 2, 3, 1, 2, 3]",
+      "[1, 2, 3] * 3",
+      "[1, 2, 3, 3]",
+      "Error"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 25,
+    "question": "¿Qué se imprime con este código?",
+    "code": "x = [1, 2, 3]\nprint(len(x))",
+    "answers": ["1", "2", "3", "Error"],
+    "correctAnswer": 2
+  },
+  {
+    "id": 26,
+    "question": "¿Cuál es la salida de este código?",
+    "code": "x = [1, 2, 3]\nprint(x.append(4))",
+    "answers": ["None", "[1, 2, 3, 4]", "[1, 2, 3]", "Error"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 27,
+    "question": "¿Qué se imprime con este código?",
+    "code": "x = [1, 2, 3]\nprint(x.pop())",
+    "answers": ["1", "2", "3", "Error"],
+    "correctAnswer": 2
+  }
+]

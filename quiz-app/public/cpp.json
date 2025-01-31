@@ -1,0 +1,218 @@
+[
+  {
+    "id": 1,
+    "question": "¿Cuál será la salida de este código?",
+    "code": "std::cout << 3 * 2 << std::endl;",
+    "answers": [
+      "6",
+      "'6'",
+      "32",
+      "Error de compilación"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 2,
+    "question": "¿Qué imprimirá el siguiente código?",
+    "code": "std::cout << 5 / 2 << std::endl;",
+    "answers": [
+      "2",
+      "2.5",
+      "'2.5'",
+      "Error de compilación"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 3,
+    "question": "¿Cuál es el resultado de esta operación?",
+    "code": "std::cout << (5 / 2.0) << std::endl;",
+    "answers": [
+      "2",
+      "2.5",
+      "'2.5'",
+      "Error de compilación"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "id": 4,
+    "question": "¿Qué pasará si se ejecuta este código?",
+    "code": "int x = 10;\nstd::cout << ++x << std::endl;",
+    "answers": [
+      "10",
+      "11",
+      "Error de compilación",
+      "Indefinido"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "id": 5,
+    "question": "¿Cuál es el tamaño de un `int` en C++?",
+    "code": "std::cout << sizeof(int) << std::endl;",
+    "answers": [
+      "2",
+      "4",
+      "8",
+      "Depende del sistema"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "id": 6,
+    "question": "¿Qué imprimirá este código?",
+    "code": "int x = 5;\nint* p = &x;\nstd::cout << *p << std::endl;",
+    "answers": [
+      "5",
+      "La dirección de memoria de x",
+      "Error de compilación",
+      "Indefinido"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 7,
+    "question": "¿Qué pasará con este código?",
+    "code": "int* p = nullptr;\nstd::cout << *p << std::endl;",
+    "answers": [
+      "0",
+      "Segfault",
+      "NULL",
+      "Indefinido"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "id": 8,
+    "question": "¿Cuál es el propósito del operador `delete`?",
+    "code": "int* p = new int(10);\ndelete p;",
+    "answers": [
+      "Libera la memoria asignada con new",
+      "Borra el valor de p",
+      "Hace que p apunte a NULL",
+      "Provoca un error"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 9,
+    "question": "¿Qué imprimirá el siguiente código?",
+    "code": "class A { public: A() { std::cout << 'A'; } };\nA obj;",
+    "answers": [
+      "A",
+      "Error de compilación",
+      "Nada",
+      "Indefinido"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 10,
+    "question": "¿Cuál será la salida de este código?",
+    "code": "class Base { public: virtual void show() { std::cout << 'Base'; } };\nclass Derived : public Base { public: void show() override { std::cout << 'Derived'; } };\nBase* b = new Derived();\nb->show();",
+    "answers": [
+      "Base",
+      "Derived",
+      "Error de compilación",
+      "Indefinido"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "id": 11,
+    "question": "¿Cuál será la salida de este código?",
+    "code": "std::vector<int> v = {1, 2, 3};\nstd::cout << v.size() << std::endl;",
+    "answers": [
+      "3",
+      "2",
+      "4",
+      "Error de compilación"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 12,
+    "question": "¿Qué pasará si se ejecuta este código?",
+    "code": "std::thread t([](){ std::cout << \"Hilo\"; });\nt.join();",
+    "answers": [
+      "Imprimirá 'Hilo'",
+      "Error de compilación",
+      "No imprimirá nada",
+      "Indefinido"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 13,
+    "question": "¿Qué pasará si se ejecuta este código?",
+    "code": "class A { public: virtual void f() {} };\nclass B : public A {};\nA* obj = new B();\ndelete obj;",
+    "answers": [
+      "Liberará memoria correctamente",
+      "Provocará memory leak",
+      "Error de compilación",
+      "Indefinido"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 14,
+    "question": "¿Para qué se usa std::unique_ptr en C++?",
+    "code": "std::unique_ptr<int> p = std::make_unique<int>(10);",
+    "answers": [
+      "Manejo de memoria automática",
+      "Se usa solo en C",
+      "No libera memoria automáticamente",
+      "Es un alias para `new`"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 15,
+    "question": "¿Cuál es la función del `std::move` en C++?",
+    "code": "std::string s1 = \"Hola\";\nstd::string s2 = std::move(s1);\nstd::cout << s1;",
+    "answers": [
+      "Imprimirá 'Hola'",
+      "Imprimirá una cadena vacía",
+      "Error de compilación",
+      "Indefinido"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "id": 16,
+    "question": "¿Qué función de C++ permite ejecutar múltiples hilos?",
+    "code": "std::??? t([](){ std::cout << \"Ejecutando\"; });",
+    "answers": [
+      "thread",
+      "task",
+      "async",
+      "run"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 17,
+    "question": "¿Qué estructura de datos en C++ es ideal para almacenar pares clave-valor?",
+    "code": "std::???<std::string, int> mapa;",
+    "answers": [
+      "map",
+      "vector",
+      "queue",
+      "set"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 18,
+    "question": "¿Qué pasará con este código?",
+    "code": "std::vector<int> v(5, 10);\nstd::cout << v[4];",
+    "answers": [
+      "10",
+      "0",
+      "Error de compilación",
+      "Indefinido"
+    ],
+    "correctAnswer": 0
+  }
+]
