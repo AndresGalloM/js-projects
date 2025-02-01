@@ -1,5 +1,5 @@
-import { PythonIcon } from './PythonIcon'
-import { JavascriptIcon } from './JavascriptIcon'
-import { CppIcon } from './CppIcon'
+import { PythonIcon } from '@/components/icons/PythonIcon'
+import { JavascriptIcon } from '@/components/icons/JavascriptIcon'
+import { CppIcon } from '@/components/icons/CppIcon'
 
 export { PythonIcon, JavascriptIcon, CppIcon }

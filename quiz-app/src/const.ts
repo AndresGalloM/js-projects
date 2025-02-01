@@ -1,5 +1,5 @@
-import { CppIcon, JavascriptIcon, PythonIcon } from './components/icons'
-import { SyntaxLanguages } from './type'
+import { CppIcon, JavascriptIcon, PythonIcon } from '@/components/icons'
+import { SyntaxLanguages } from '@/type'
 
 export const LANGUAGES = {
   JAVASCRIPT: { value: 'js', label: 'JavaScript', icon: JavascriptIcon },

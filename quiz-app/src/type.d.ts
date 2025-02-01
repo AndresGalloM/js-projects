@@ -1,4 +1,4 @@
-import { LANGUAGES } from './const'
+import { LANGUAGES } from '@/const'
 
 export interface Question {
   id: number

@@ -8,7 +8,7 @@ import {
   For,
   Text,
 } from '@chakra-ui/react'
-import { SyntaxHigh } from './SyntaxHigh'
+import { SyntaxHigh } from '@/components/SyntaxHigh'
 
 const getColor = (answerIndex: number, correctAnswer: number, userAnswer: number): ColorPalette => {
   if (answerIndex === correctAnswer) return 'green'

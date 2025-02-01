@@ -18,7 +18,7 @@ export const Footer = () => {
   })
 
   return (
-    <Flex direction="column" as="footer" justify="center" gap={4} pt={2}>
+    <Flex direction="column" as="footer" justify="center" gap={4} mt={2}>
       <Box>
         <HStack gap={4}>
           <Status.Root colorPalette="green">

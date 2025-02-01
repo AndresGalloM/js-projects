@@ -6,8 +6,8 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { Header } from './components/Header'
-import { useStore } from './store/store'
+import { Header } from '@/components/Header'
+import { useStore } from '@/store/store'
 import { useEffect } from 'react'
 import {
   TbSquareRoundedArrowLeftFilled,
@@ -15,7 +15,7 @@ import {
 } from 'react-icons/tb'
 import { Question } from '@/components/Question'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Footer } from './components/Footer'
+import { Footer } from '@/components/Footer'
 
 function App() {
   const loading = useStore((state) => state.loading)

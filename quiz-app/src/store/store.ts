@@ -36,7 +36,7 @@ export const useStore = create<Store>()((set, get) => ({
 
       set({ questions: newQuestions })
     } catch {
-      console.log('Error')
+      console.error('Error')
     } finally {
       set({ loading: false })
     }

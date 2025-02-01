@@ -1,4 +1,8 @@
-import { Box, createListCollection, Flex } from '@chakra-ui/react'
+import {
+  createListCollection,
+  Flex,
+  HStack,
+} from '@chakra-ui/react'
 import {
   SelectContent,
   SelectItem,
@@ -10,6 +14,7 @@ import {
 import { LANGUAGES } from '@/const'
 import { useStore } from '@/store/store'
 import { Language } from '@/type'
+import { Theme } from '@/components/Theme'
 
 const languages = createListCollection({
   items: Object.values(LANGUAGES),
@@ -20,8 +25,9 @@ export const Header = () => {
   const changeLanguage = useStore((state) => state.changeLanguage)
 
   return (
-    <Box as="header" py="4">
+    <HStack as="header" py="4" justifyContent="space-between">
       <SelectRoot
+        variant="subtle"
         size="md"
         collection={languages}
         maxWidth={160}
@@ -45,7 +51,7 @@ export const Header = () => {
             }}
           </SelectValueText>
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent bg="bg">
           {languages.items.map((language) => (
             <SelectItem item={language} key={language.value}>
               <Flex gap={2} alignItems="center">
@@ -56,6 +62,8 @@ export const Header = () => {
           ))}
         </SelectContent>
       </SelectRoot>
-    </Box>
+
+      <Theme />
+    </HStack>
   )
 }
