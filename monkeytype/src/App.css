@@ -1,0 +1,102 @@
+main {
+  margin: auto;
+  padding: 20px 30px;
+  max-width: 1200px;
+  display: flex;
+  height: 100vh;
+  align-items: center;
+}
+
+.typing {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  position: relative;
+}
+
+input {
+  padding: 10px;
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.out-focus {
+  display: none;
+  flex-wrap: wrap;
+  place-content: center;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(4px);
+  font-size: 1rem;
+}
+
+:has(input:not(:focus)) {
+  & > .out-focus {
+    display: flex;
+  }
+
+  & > .text .caret {
+    display: none;
+  }
+}
+
+.text {
+  position: relative;
+}
+
+.words {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 2rem;
+  font-weight: bold;
+  opacity: .7;
+  color: rgb(85, 85, 85);
+  user-select: none;
+}
+
+.word {
+  display: flex;
+  margin: 4px 10px;
+  border-bottom: 2px solid transparent;
+}
+
+.error {
+  border-bottom: 2px solid red;
+}
+
+.word span {
+  line-height: 1;
+  letter-spacing: 2px;
+}
+
+.caret {
+  width: 4px;
+  height: 2rem;
+  background: rgb(149, 0, 255);
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  transition: all .1s linear;
+  animation: 1s caretFlashSmooth infinite;
+}
+
+.correct {
+  color: green;
+}
+
+.incorrect {
+  color: red;
+}
+
+@keyframes caretFlashSmooth {
+  0%, 100% {
+    opacity: .1;
+  }
+
+  50% {
+    opacity: .7;
+  }
+}
