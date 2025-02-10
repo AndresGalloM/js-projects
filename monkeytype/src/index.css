@@ -3,3 +3,30 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+:root {
+  --bg-color: #181c18;
+  --main-color: #00ce7c;
+  --caret-color: #00ce7c;
+  --sub-color: #9578d3;
+  --sub-alt-color: #131613;
+  --text-color: #c2fbe1;
+  --error-color: #ff5f5f;
+  --error-extra-color: #d22a2a;
+  --colorful-error-color: #ff5f5f;
+  --colorful-error-extra-color: #d22a2a;
+}
+
+@font-face {
+  font-family: "Cascadia Mono";
+  src: url("../public/fonts/CascadiaMono.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "Cascadia Mono", 'Roboto Mono', monospace;
+  font-weight: 400;
+  background: var(--bg-color);
+  color: var(--text-color);
+}

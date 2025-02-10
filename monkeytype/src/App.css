@@ -31,6 +31,7 @@ input {
   height: 100%;
   backdrop-filter: blur(4px);
   font-size: 1rem;
+  font-weight: bold;
 }
 
 :has(input:not(:focus)) {
@@ -40,6 +41,10 @@ input {
 
   & > .text .caret {
     display: none;
+  }
+
+  & > .text .words {
+    opacity: .25;
   }
 }
 
@@ -51,44 +56,43 @@ input {
   display: flex;
   flex-wrap: wrap;
   font-size: 2rem;
-  font-weight: bold;
   opacity: .7;
-  color: rgb(85, 85, 85);
   user-select: none;
 }
 
 .word {
   display: flex;
-  margin: 4px 10px;
+  margin: 8px 10px;
   border-bottom: 2px solid transparent;
 }
 
 .error {
-  border-bottom: 2px solid red;
+  border-bottom: 2px solid var(--error-color);
 }
 
 .word span {
   line-height: 1;
-  letter-spacing: 2px;
+  color: var(--sub-color);
 }
 
 .caret {
   width: 4px;
   height: 2rem;
-  background: rgb(149, 0, 255);
+  border-radius: .5rem;
+  background: var(--caret-color);
   position: absolute;
-  top: 4px;
-  left: 5px;
+  top: 8px;
+  left: 6px;
   transition: all .1s linear;
   animation: 1s caretFlashSmooth infinite;
 }
 
-.correct {
-  color: green;
+.word span.correct {
+  color: var(--text-color);
 }
 
-.incorrect {
-  color: red;
+.word span.incorrect {
+  color: var(--error-color);
 }
 
 @keyframes caretFlashSmooth {
@@ -97,6 +101,6 @@ input {
   }
 
   50% {
-    opacity: .7;
+    opacity: 1;
   }
 }
