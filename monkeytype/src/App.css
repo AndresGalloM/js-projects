@@ -10,8 +10,10 @@ main {
 .typing {
   display: flex;
   flex-direction: column;
-  align-content: center;
+  flex-wrap: wrap;
+  place-items: center;
   position: relative;
+  flex: 1;
 }
 
 input {
@@ -22,29 +24,38 @@ input {
 }
 
 .out-focus {
-  display: none;
+  display: flex;
   flex-wrap: wrap;
   place-content: center;
   position: absolute;
   z-index: 1;
+  letter-spacing: 2px;
   width: 100%;
   height: 100%;
   backdrop-filter: blur(4px);
   font-size: 1rem;
-  font-weight: bold;
+  opacity: 0;
 }
 
-:has(input:not(:focus)) {
-  & > .out-focus {
-    display: flex;
+:has(input:not(:focus)) .text {
+  .out-focus {
+    opacity: 1;
+    transition: all 1s ease-out 1s;
   }
 
-  & > .text .caret {
+  .caret {
     display: none;
   }
 
-  & > .text .words {
+  .words {
     opacity: .25;
+    transition: all .8s ease-out 1s;
+  }
+}
+
+@keyframes aparecer {
+  to {
+    opacity: 1;
   }
 }
 
@@ -102,5 +113,52 @@ input {
 
   50% {
     opacity: 1;
+  }
+}
+
+.reload {
+  width: min-content;
+  background: transparent;
+  border: none;
+  margin-top: 2rem;
+  padding: 1rem;
+  fill: var(--sub-color);
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--text-color);
+  }  
+}
+
+.hidden {
+  display: none !important;
+}
+
+.time {
+  font-size: 2rem;
+  align-self: flex-start;
+  color: var(--main-color);
+  margin: 5px 10px;
+}
+
+.results {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+
+  &>div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    &>p:first-child {
+      font-size: inherit;
+      color: var(--sub-color);
+    }
+
+    &>p {
+      font-size: 2rem;
+      color: var(--main-color);
+    }
   }
 }

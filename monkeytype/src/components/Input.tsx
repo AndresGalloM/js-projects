@@ -1,20 +1,30 @@
-import { RefObject, useEffect } from 'react'
+import { useEffect } from 'react'
 import { BLOCKED_KEYS } from "../consts"
 import { useWordsStore } from '../store/words'
+import { useReferencesStore } from '../store/references'
 
-interface Props {
-  inputRef: RefObject<HTMLInputElement>
-  caretRef: RefObject<HTMLDivElement>
-  wordsRef: RefObject<HTMLDivElement>
-}
-
-export const Input = ({inputRef, caretRef, wordsRef}: Props) => {
+export const Input = () => {
   const words = useWordsStore(state => state.words)
   const iWord = useWordsStore(state => state.iWord)
   const iLetter = useWordsStore(state => state.iLetter)
   const handleBackspace = useWordsStore(state => state.prevLetter)
   const nextLetter = useWordsStore(state => state.nextLetter)
   const handleSpace = useWordsStore(state => state.handleSpace)
+  const setStartTime = useWordsStore(state => state.setStartTime)
+
+  const wordsRef = useReferencesStore(state => state.wordsRef)
+  const caretRef = useReferencesStore(state => state.caretRef)
+  const inputRef = useReferencesStore(state => state.inputRef)
+  
+  useEffect(() => {
+    document.addEventListener('keydown', (event) => {
+      const {key, altKey, ctrlKey} = event
+      if (BLOCKED_KEYS.includes(key) || altKey || ctrlKey) return
+
+      event.preventDefault()
+      inputRef.current!.focus()
+    })
+  }, [inputRef])
 
   useEffect(() => {
     const childrenCurrentWord = wordsRef.current?.children[iWord]
@@ -40,6 +50,7 @@ export const Input = ({inputRef, caretRef, wordsRef}: Props) => {
     const {key, altKey, ctrlKey} = event
     if (BLOCKED_KEYS.includes(key) || altKey || ctrlKey) return
 
+    setStartTime()
     const childrenCurrentWord = wordsRef.current!.children[iWord]
 
     if (key === ' ') {
@@ -48,10 +59,10 @@ export const Input = ({inputRef, caretRef, wordsRef}: Props) => {
       inputRef.current!.value = ''
       handleSpace()
 
-      const wrongWord = childrenCurrentWord.getElementsByClassName('incorrect').length > 0
-      const iswrongWord = [...childrenCurrentWord.children].find(item => item.className === '')
+      const incorrectWord = childrenCurrentWord.getElementsByClassName('incorrect').length > 0
+      const untypedLetter = [...childrenCurrentWord.children].find(item => item.className === '')
       
-      if (wrongWord || iswrongWord) {
+      if (incorrectWord || untypedLetter) {
         childrenCurrentWord.classList.add('error')
       }
 

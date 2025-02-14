@@ -1,8 +1,9 @@
 import { create } from 'zustand'
 import data from '../../languages/english.json'
 
-
 interface Store {
+  startTime: boolean
+  playing: boolean
   words: string[]
   iWord: number
   iLetter: number
@@ -10,15 +11,20 @@ interface Store {
   prevLetter: () => void
   nextLetter: () => void
   handleSpace: () => void
+  reload: () => void
+  setStartTime: () => void
+  endGame: () => void
 }
 
 export const useWordsStore = create<Store>()((set, get) => ({
+  startTime: false,
+  playing: false,
   words: [],
   iWord: 0,
   iLetter: 0,
   getWords: () => {
-    const newWords = data.sort(() => Math.random() - 0.5).slice(0, 20)
-    set({words: newWords})
+    const newWords = data.sort(() => Math.random() - 0.5).slice(0, 30)
+    set({words: newWords, playing: true})
   },
   prevLetter: () => {
     const {words, iWord, iLetter} = get()
@@ -36,7 +42,12 @@ export const useWordsStore = create<Store>()((set, get) => ({
     }))
   },
   nextLetter: () => {
-    const {words, iWord, iLetter} = get()
+    const {words, iWord, iLetter, endGame} = get()
+
+    if ((words.length - 1) === iWord && (words[iWord].length - 1) === iLetter) {
+      endGame()
+    }
+
     set(() => ({
       iLetter: iLetter < words[iWord].length ? iLetter + 1 : iLetter
     }))
@@ -47,5 +58,18 @@ export const useWordsStore = create<Store>()((set, get) => ({
       iWord: iWord + 1,
       iLetter: 0
     }))
-  }
+  },
+  reload: () => {
+    set(() => ({
+      startTime: false,
+      words: [],
+      iWord: 0,
+      iLetter: 0
+    }))
+
+    const {getWords} = get()
+    getWords()
+  },
+  setStartTime: () => set({startTime: true}),
+  endGame: () => set({playing: false})
 }))

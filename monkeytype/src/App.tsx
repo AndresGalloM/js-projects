@@ -1,55 +1,62 @@
 import './App.css'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { WordsWrapper } from './components/WordsWrapper'
-import { BLOCKED_KEYS } from './consts'
 import { Input } from './components/Input'
 import { useWordsStore } from './store/words'
-
-let time = 15
+import { ReloadIcons } from './components/icons'
+import { useReferencesStore } from './store/references'
+import { Time } from './components/Time'
 
 function App() {
+  const playing = useWordsStore(state => state.playing)
   const getWords = useWordsStore(state => state.getWords)
+ 
+  const reload = useWordsStore(state => state.reload)
+  const inputRef = useReferencesStore(state => state.inputRef)
 
-  const caretRef = useRef<HTMLDivElement>(null)
-  const wordsRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {  
+  useEffect(() => {
     getWords()
   }, [getWords])
 
-  useEffect(() => {
-    document.addEventListener('keydown', (event) => {
-      const {key, altKey, ctrlKey} = event
-      if (BLOCKED_KEYS.includes(key) || altKey || ctrlKey) return
-
-      event.preventDefault()
-      inputRef.current!.focus()
-    })
-  }, [])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      time--
-
-      if (time === 0) {
-        console.log('termino el tiempo')
-        clearInterval(interval)
-      }
-    }, 1000)
-  }, [])
-
- 
   return (
     <main>
       <section className='typing'>
-        <div className='out-focus'>
-          <span>Press any key to focus</span>
-        </div>
-        
-        <WordsWrapper caretRef={caretRef} wordsRef={wordsRef} />
+        {
+          playing ? (
+            <>            
+              <Time />
+              <WordsWrapper />
+              <Input />
+            </>
+          ) : (
+            <div className='results'>
+              <div>
+                <p>Words</p>
+                <p>15</p>
+              </div>
+              <div>
+                <p>Corrects</p>
+                <p>7</p>
+              </div>
+              <div>
+                <p>Incorrects</p>
+                <p>3</p>
+              </div>
+              <div>
+                <p>Missed</p>
+                <p>2</p>
+              </div>
+            </div>
+          )
+        }
 
-        <Input inputRef={inputRef} caretRef={caretRef} wordsRef={wordsRef} />
+
+        <button className='reload' onClick={() => {
+          reload()
+          inputRef.current?.focus()
+        }}>
+          <ReloadIcons width='18px' />
+        </button>
       </section>
     </main>
   )
