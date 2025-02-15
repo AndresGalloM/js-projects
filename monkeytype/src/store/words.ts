@@ -1,7 +1,26 @@
 import { create } from 'zustand'
 import data from '../../languages/english.json'
 
+interface Stats {
+  [Stat.corrects]: number;
+  [Stat.incorrects]: number;
+  [Stat.missed]: number;
+}
+
+export enum Stat {
+  corrects = 'correct',
+  incorrects = 'incorrect',
+  missed = 'missed'
+}
+
+type updateParams = {
+  property: Stat,
+  amount?: number
+  direction?: boolean
+}
+
 interface Store {
+  stats: Stats
   startTime: boolean
   playing: boolean
   words: string[]
@@ -14,9 +33,17 @@ interface Store {
   reload: () => void
   setStartTime: () => void
   endGame: () => void
+  updateStats: (params: updateParams) => void
+}
+
+const initStats = {
+  correct: 0,
+  incorrect: 0,
+  missed: 0
 }
 
 export const useWordsStore = create<Store>()((set, get) => ({
+  stats: initStats,
   startTime: false,
   playing: false,
   words: [],
@@ -61,6 +88,7 @@ export const useWordsStore = create<Store>()((set, get) => ({
   },
   reload: () => {
     set(() => ({
+      stats: initStats,
       startTime: false,
       words: [],
       iWord: 0,
@@ -71,5 +99,13 @@ export const useWordsStore = create<Store>()((set, get) => ({
     getWords()
   },
   setStartTime: () => set({startTime: true}),
-  endGame: () => set({playing: false})
+  endGame: () => set({playing: false}),
+  updateStats: ({property, amount = 1, direction = true}) => {
+    set(({stats}) => ({
+      stats: {
+        ...stats,
+        [property]: stats[property] + (direction ? amount : -amount)
+      }
+    }))
+  }
 }))

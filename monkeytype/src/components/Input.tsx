@@ -1,17 +1,19 @@
 import { useEffect } from 'react'
 import { BLOCKED_KEYS } from "../consts"
-import { useWordsStore } from '../store/words'
+import { Stat, useWordsStore } from '../store/words'
 import { useReferencesStore } from '../store/references'
 
 export const Input = () => {
   const words = useWordsStore(state => state.words)
   const iWord = useWordsStore(state => state.iWord)
   const iLetter = useWordsStore(state => state.iLetter)
+
   const handleBackspace = useWordsStore(state => state.prevLetter)
   const nextLetter = useWordsStore(state => state.nextLetter)
   const handleSpace = useWordsStore(state => state.handleSpace)
   const setStartTime = useWordsStore(state => state.setStartTime)
-
+  const updateStats = useWordsStore(state => state.updateStats)
+ 
   const wordsRef = useReferencesStore(state => state.wordsRef)
   const caretRef = useReferencesStore(state => state.caretRef)
   const inputRef = useReferencesStore(state => state.inputRef)
@@ -22,7 +24,9 @@ export const Input = () => {
       if (BLOCKED_KEYS.includes(key) || altKey || ctrlKey) return
 
       event.preventDefault()
-      inputRef.current!.focus()
+      if (inputRef.current) {
+        inputRef.current.focus()
+      }
     })
   }, [inputRef])
 
@@ -52,6 +56,7 @@ export const Input = () => {
 
     setStartTime()
     const childrenCurrentWord = wordsRef.current!.children[iWord]
+    const wordLength = words[iWord].length
 
     if (key === ' ') {
       if ((words.length - 1) === iWord) return
@@ -59,7 +64,11 @@ export const Input = () => {
       inputRef.current!.value = ''
       handleSpace()
 
-      const incorrectWord = childrenCurrentWord.getElementsByClassName('incorrect').length > 0
+      if (wordLength - iLetter) {
+        updateStats({property: Stat.missed, amount: wordLength - iLetter})
+      }
+
+      const incorrectWord = childrenCurrentWord.getElementsByClassName(Stat.incorrects).length > 0
       const untypedLetter = [...childrenCurrentWord.children].find(item => item.className === '')
       
       if (incorrectWord || untypedLetter) {
@@ -79,20 +88,26 @@ export const Input = () => {
         prevLetter.classList.remove('error')
       } else {
         const prevLetter = childrenCurrentWord.children[iLetter - 1] as HTMLElement
-        prevLetter.classList.remove('correct', 'incorrect')
+        const property = Object.values(Stat).find(val => prevLetter.classList.contains(val)) || Stat.missed
+
+        updateStats({property, direction: false})
+        
+        prevLetter.classList.remove(Stat.corrects, Stat.incorrects)
       }
 
       return
     }
 
-    if (words[iWord].length === iLetter) return
+    if (wordLength === iLetter) return
 
     const currentLetter =childrenCurrentWord.children[iLetter] as HTMLElement
 
     if (key === words[iWord][iLetter]) {
-      currentLetter.classList.add('correct')
+      updateStats({property: Stat.corrects})
+      currentLetter.classList.add(Stat.corrects)
     } else {
-      currentLetter.classList.add('incorrect')
+      updateStats({property: Stat.incorrects})
+      currentLetter.classList.add(Stat.incorrects)
     }
 
     nextLetter()

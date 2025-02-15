@@ -9,13 +9,9 @@ export const Time = () => {
     useEffect(() => {
       if (!startTime) return
   
-      console.log('cambio el starttime')
       const interval = setInterval(() => {
-        setTime(prev => {
-          console.log(prev - 1)
-  
+        setTime(prev => {  
           if ((prev - 1) === 0) {
-            console.log('termino el tiempo')
             clearInterval(interval)
             endGame()
           }
@@ -24,7 +20,6 @@ export const Time = () => {
       }, 1000)
   
       return () => {
-        console.log('se desmonto')
         setTime(15)
         clearInterval(interval)
       }
