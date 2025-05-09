@@ -1,0 +1,44 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {
+	SignedIn,
+	SignedOut,
+	UserButton,
+	SignInButton,
+} from "@clerk/astro/components";
+---
+
+<Layout title="Inicio App - registra los retos que deseas completar">
+	<main class="flex flex-col max-w-6xl h-full w-full justify-center m-auto">
+		<h1 class="flex flex-col text-8xl bold mb-6">
+			<span>Crea tus</span>
+			<span>retos personales</span>
+		</h1>
+
+		<p class="text-xl opacity-85 mb-8">
+			Registra, elimina y visualiza los retos personales que quieres completar. <br>
+			Solo para usuarios autenticados!
+		</p>
+
+		<div>
+			<SignedOut>
+				<SignInButton
+					class="text-lg py-2 px-4 rounded-md mb-2 cursor-pointer bg-white text-black"
+					mode="modal"
+				>
+					Iniciar sesion
+				</SignInButton>
+			</SignedOut>
+			
+			<SignedIn>
+				<UserButton showName/>
+				<span class="text-[15px] text-gray-700">
+					Ya haz iniciado sesion?, entra a tu
+					<a class="italic underline text-blue-300" href="/retos">
+						panel de retos
+					</a>
+				</span>
+			</SignedIn>
+		</div>
+	</main>
+</Layout>

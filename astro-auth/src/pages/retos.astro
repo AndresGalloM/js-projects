@@ -1,0 +1,40 @@
+---
+import { UserButton } from "@clerk/astro/components";
+import Layout from "../layouts/Layout.astro";
+import AddChallenge from "../components/AddChallenge.astro";
+import ChallengesList from "../components/ChallengesList.astro";
+import { getUserChallenges } from "../lib/db";
+
+const user = await Astro.locals.currentUser()
+if (!user) {
+  return new Response(
+    'Unauthorized',
+    {
+      status: 401,
+      statusText: 'Unauthorized'
+    }
+  )
+}
+
+const challenges = await getUserChallenges(user?.id)
+---
+
+<Layout title="Retos App - lista de retos personales">
+  <main class="flex
+  flex-col
+  max-w-3xl
+  m-auto">
+    <header class="flex justify-between w-full py-4">
+      <h2 class="text-xl">Retos</h2>
+
+      <UserButton showName appearance={{variables: {
+        colorText: 'white',
+        colorBackground: '#00091d',
+        colorNeutral: 'white'
+      }}}/>
+    </header>
+
+    <AddChallenge />
+    <ChallengesList retos={[]}/>
+  </main>
+</Layout>

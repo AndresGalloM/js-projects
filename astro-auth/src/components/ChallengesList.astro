@@ -1,0 +1,51 @@
+---
+type Props = {
+  retos: string[]
+}
+
+const { retos = [] } = Astro.props
+---
+
+<ul id="challenges-list">
+  {
+    retos.map(reto => {
+      return (
+        <li 
+          class="flex justify-between items-center py-2 px-4 border-b border-gray-800 backdrop-blur-xs"
+        >
+          <p class="text-lg">{reto}</p>
+          <div class="flex gap-2">
+            <button class="py-1.5 px-4 border border-red-800 rounded-md cursor-pointer">Eliminar</button>
+          </div>
+        </li>
+      )
+    })
+  }
+</ul>
+
+<template id="challenge-item">
+  <li 
+    class="flex justify-between items-center py-2 px-4 border-b border-gray-800 backdrop-blur-xs"
+  >
+    <p class="text-lg"></p>
+    <div class="flex gap-2">
+      <button class="py-1.5 px-4 border border-red-800 rounded-md cursor-pointer">Eliminar</button>
+    </div>
+  </li>
+</template>
+
+<script>
+  const ul = document.getElementById('challenges-list') as HTMLUListElement
+  const template = document.getElementById('challenge-item') as HTMLLIElement
+
+  addEventListener('add-challenge', async (e) => {
+      const challenge = (e as CustomEvent).detail.challenge
+
+      const li = template.content.cloneNode(true) as HTMLTemplateElement
+
+      li.querySelector('p')!.textContent = challenge
+      ul.appendChild(
+        li
+      )
+  })
+</script>
