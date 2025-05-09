@@ -35,6 +35,6 @@ const challenges = await getUserChallenges(user?.id)
     </header>
 
     <AddChallenge />
-    <ChallengesList retos={[]}/>
+    <ChallengesList retos={challenges}/>
   </main>
 </Layout>
