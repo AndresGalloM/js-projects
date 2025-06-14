@@ -4,7 +4,7 @@ import { ActionState, SignInSchema, SignUpSchema, User } from "@/types";
 import { signInSchema, signUpSchema } from "./schema";
 import { db } from "@/drizzle/db";
 import { eq } from "drizzle-orm";
-import { UserTable } from "@/drizzle/schema";
+import { OAuthProvider, UserTable } from "@/drizzle/schema";
 import { comparePassword, generateSalt, hashPassword } from "./utils";
 import {
   createUserSession,
@@ -14,6 +14,7 @@ import {
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "./currentUser";
+import { getOAuthClient } from "./oAuth/base";
 
 export async function signIn(_: ActionState | undefined, formData: FormData) {
   const rawUser = Object.fromEntries(formData.entries()) as SignInSchema;
@@ -33,6 +34,12 @@ export async function signIn(_: ActionState | undefined, formData: FormData) {
   if (!user) {
     return {
       message: "User not found, please try signing up",
+    };
+  }
+
+  if (!user.password || !user.salt) {
+    return {
+      message: "Password is not correct, please try again",
     };
   }
 
@@ -120,4 +127,9 @@ export async function toggleRole() {
     .returning({ id: UserTable.id, role: UserTable.role });
 
   await updateUserSession(updatedUser, await cookies());
+}
+
+export async function oAuthSignIn(provider: OAuthProvider) {
+  const oAuthClient = getOAuthClient(provider);
+  redirect(oAuthClient.createAuthUrl(await cookies()));
 }

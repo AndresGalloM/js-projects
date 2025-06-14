@@ -10,14 +10,15 @@ import {
 } from "drizzle-orm/pg-core";
 
 export const userRoles = ["user", "admin", "moderator"] as const;
+export type UserRole = (typeof userRoles)[number];
 export const userRoleEnum = pgEnum("user_role", userRoles);
 
 export const UserTable = pgTable("users", {
   id: uuid().primaryKey().defaultRandom(),
   name: varchar().notNull(),
-  email: varchar().notNull().unique(),
-  password: text().notNull(),
-  salt: text().notNull(),
+  email: varchar().unique(),
+  password: text(),
+  salt: text(),
   role: userRoleEnum().notNull().default("user"),
   createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp({ withTimezone: true })
@@ -31,6 +32,7 @@ export const userRelations = relations(UserTable, ({ many }) => ({
 }));
 
 export const oAuthProviders = ["discord", "github"] as const;
+export type OAuthProvider = (typeof oAuthProviders)[number];
 export const oAuthProviderEnum = pgEnum("oauth_provider", oAuthProviders);
 
 export const UserOAuthAccountTable = pgTable(

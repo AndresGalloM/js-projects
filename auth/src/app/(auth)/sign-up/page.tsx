@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ActionState } from "@/types";
 import { signUp } from "@/auth/actions";
 import FormButton from "@/app/components/FormButton";
+import OAuthClients from "@/app/components/OAuthClients";
 
 const initialState: ActionState = {
   message: "",
@@ -19,20 +20,7 @@ export default function SignUpPage() {
 
       <form action={formAction} className="flex flex-col gap-4">
         {/* {error && <p className="text-destructive">{error}</p>} */}
-        <div className=" flex gap-2">
-          <button
-            type="button"
-            // onClick={async () => await oAuthSignIn("discord")}
-          >
-            Discord
-          </button>
-          <button
-            type="button"
-            // onClick={async () => await oAuthSignIn("github")}
-          >
-            GitHub
-          </button>
-        </div>
+        <OAuthClients />
         <label className="flex flex-col">
           <span className="mb-1.5">Name</span>
           <input

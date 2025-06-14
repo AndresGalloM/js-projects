@@ -2,7 +2,7 @@ import { userRoles } from "@/drizzle/schema";
 import { z } from "zod";
 import crypto from "crypto";
 import { redis } from "@/redis";
-import { User } from "@/types";
+import { Cookies, User } from "@/types";
 
 const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7; // 7 days
 const REDIS_SESSION_KEY = "session";
@@ -12,21 +12,6 @@ export const sessionSchema = z.object({
   id: z.string(),
   role: z.enum(userRoles),
 });
-
-type Cookies = {
-  set: (
-    key: string,
-    value: string,
-    options?: {
-      httpOnly?: boolean;
-      secure?: boolean;
-      sameSite?: "strict" | "lax" | "none";
-      expires?: number;
-    }
-  ) => void;
-  get: (key: string) => { name: string; value: string } | undefined;
-  delete: (key: string) => void;
-};
 
 export function getUserSessionId(cookies: Pick<Cookies, "get">) {
   const sessionId = cookies.get(COOKIE_SESSION_KEY)?.value;
