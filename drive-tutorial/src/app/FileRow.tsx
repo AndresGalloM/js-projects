@@ -1,5 +1,5 @@
 import { FileIcon } from "lucide-react";
-import type { File } from "~/lib/mock-data";
+import type { File } from "~/server/db/schema";
 
 export default function FileRow({ file }: { file: File }) {
   return (

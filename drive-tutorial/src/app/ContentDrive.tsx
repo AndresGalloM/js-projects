@@ -1,0 +1,75 @@
+"use client";
+
+import { Upload, ChevronRight } from "lucide-react";
+import { Button } from "~/components/ui/button";
+import FolderRow from "./FolderRow";
+import FileRow from "./FileRow";
+import type { Folder, File } from "~/server/db/schema";
+import Link from "next/link";
+
+export default function ContentDrive({
+  breadCrumbs,
+  folders,
+  files,
+}: {
+  breadCrumbs: Folder[];
+  folders: Folder[];
+  files: File[];
+}) {
+  const handleUpload = () => {
+    alert("Upload functionality would be implemented here");
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-900 p-8 text-gray-100">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-6 flex items-center justify-between">
+          <div className="flex items-center">
+            <Link
+              href={`/f/1125899906842625`}
+              className="text-gray-300 hover:text-white hover:underline"
+            >
+              My Drive
+            </Link>
+            {breadCrumbs.map((folder) => (
+              <div key={folder.id} className="flex items-center">
+                <ChevronRight className="m-2 text-gray-400" size={16} />
+                <Link
+                  href={`/f/${folder.id}`}
+                  className="text-gray-300 hover:text-white hover:underline"
+                >
+                  {folder.name}
+                </Link>
+              </div>
+            ))}
+          </div>
+          <Button
+            onClick={handleUpload}
+            className="bg-blue-600 text-white hover:bg-blue-700"
+          >
+            <Upload className="mr-1" size={20} />
+            Upload
+          </Button>
+        </div>
+        <div className="rounded-lg bg-gray-800 shadow-xl">
+          <div className="border-b border-gray-700 px-6 py-4">
+            <div className="grid grid-cols-12 gap-4 text-sm font-medium text-gray-400">
+              <div className="col-span-6">Name</div>
+              <div className="col-span-3">Type</div>
+              <div className="col-span-3">Size</div>
+            </div>
+          </div>
+          <ul>
+            {folders.map((folder) => (
+              <FolderRow key={folder.id} folder={folder} />
+            ))}
+
+            {files.map((file) => (
+              <FileRow key={file.id} file={file} />
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
