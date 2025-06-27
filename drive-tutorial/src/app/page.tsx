@@ -1,15 +1,42 @@
-import { eq } from "drizzle-orm";
-import { db } from "~/server/db";
-import { filesTable, foldersTable } from "~/server/db/schema";
-import ContentDrive from "./ContentDrive";
+import { SignInButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { Button } from "~/components/ui/button";
 
-export default async function GoogleDriveClone() {
-  const [root] = await db
-    .select()
-    .from(foldersTable)
-    .where(eq(foldersTable.name, "root"));
-  const folders = await db.select().from(foldersTable);
-  const files = await db.select().from(filesTable);
+export default async function HomePage() {
+  const { userId } = await auth();
 
-  return <ContentDrive folders={folders} files={files} />;
+  if (userId) {
+    return redirect("/f/1125899906842625");
+  }
+
+  return (
+    <div className="flex min-h-screen flex-col justify-center bg-gray-900 p-8 text-gray-100">
+      <div className="mx-auto max-w-6xl">
+        <h1 className="mb-4 bg-gradient-to-r from-neutral-200 to-neutral-400 bg-clip-text text-5xl font-bold text-transparent md:text-6xl">
+          Drive
+        </h1>
+
+        <SignInButton
+          mode="modal"
+          forceRedirectUrl={"/f/1125899906842625"}
+          appearance={{
+            variables: {
+              colorText: "#f3f4f6",
+              colorPrimary: "#f3f4f6",
+              colorNeutral: "#f3f4f6",
+              colorBackground: "#1f2937",
+            },
+          }}
+        >
+          <Button
+            size="lg"
+            className="border border-neutral-700 bg-neutral-800 text-white transition-colors hover:bg-neutral-700"
+          >
+            Get Started
+          </Button>
+        </SignInButton>
+      </div>
+    </div>
+  );
 }
