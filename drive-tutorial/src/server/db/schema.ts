@@ -20,10 +20,14 @@ export const filesTable = createTable(
     size: int().notNull(),
     url: text().notNull(),
     parent: bigint({ mode: "number" }).notNull(),
+    ownerId: varchar({ length: 255 }).notNull(),
     createdAt: timestamp("created_at").notNull().defaultNow(),
   },
   (t) => {
-    return [index("parent_index").on(t.parent)];
+    return [
+      index("parent_index").on(t.parent),
+      index("owner_index").on(t.ownerId),
+    ];
   },
 );
 
@@ -33,10 +37,14 @@ export const foldersTable = createTable(
     id: bigint({ mode: "number" }).primaryKey().autoincrement(),
     name: varchar({ length: 255 }).notNull(),
     parent: bigint({ mode: "number" }),
+    ownerId: varchar({ length: 255 }).notNull(),
     createdAt: timestamp("created_at").notNull().defaultNow(),
   },
   (t) => {
-    return [index("parent_index").on(t.parent)];
+    return [
+      index("parent_index").on(t.parent),
+      index("owner_index").on(t.ownerId),
+    ];
   },
 );
 

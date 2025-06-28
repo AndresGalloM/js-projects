@@ -2,12 +2,20 @@ import { SignInButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { Button } from "~/components/ui/button";
+import { onBoarding } from "~/lib/utils";
+import { getRootFolderUser } from "~/server/db/queries";
 
 export default async function HomePage() {
   const { userId } = await auth();
 
   if (userId) {
-    return redirect("/f/1125899906842625");
+    const root = await getRootFolderUser(userId);
+
+    if (!root) {
+      return redirect(`/f/${await onBoarding()}`);
+    }
+
+    return redirect(`/f/${root}`);
   }
 
   return (
@@ -19,7 +27,7 @@ export default async function HomePage() {
 
         <SignInButton
           mode="modal"
-          forceRedirectUrl={"/f/1125899906842625"}
+          forceRedirectUrl={await onBoarding()}
           appearance={{
             variables: {
               colorText: "#f3f4f6",
