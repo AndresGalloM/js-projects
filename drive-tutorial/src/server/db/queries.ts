@@ -3,11 +3,19 @@ import { db } from ".";
 import { filesTable, foldersTable, type File, type Folder } from "./schema";
 
 export function foldersPromise(folder: number) {
-  return db.select().from(foldersTable).where(eq(foldersTable.parent, folder));
+  return db
+    .select()
+    .from(foldersTable)
+    .where(eq(foldersTable.parent, folder))
+    .orderBy(foldersTable.createdAt);
 }
 
 export function filesPromise(folder: number) {
-  return db.select().from(filesTable).where(eq(filesTable.parent, folder));
+  return db
+    .select()
+    .from(filesTable)
+    .where(eq(filesTable.parent, folder))
+    .orderBy(filesTable.createdAt);
 }
 
 export async function getBreadCrumbs(folderId: number) {
