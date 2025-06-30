@@ -1,4 +1,4 @@
-import { and, eq, isNull } from "drizzle-orm";
+import { and, desc, eq, isNull } from "drizzle-orm";
 import { db } from ".";
 import { filesTable, foldersTable, type File, type Folder } from "./schema";
 
@@ -7,7 +7,7 @@ export function foldersPromise(folder: number) {
     .select()
     .from(foldersTable)
     .where(eq(foldersTable.parent, folder))
-    .orderBy(foldersTable.createdAt);
+    .orderBy(desc(foldersTable.createdAt));
 }
 
 export function filesPromise(folder: number) {
@@ -15,7 +15,7 @@ export function filesPromise(folder: number) {
     .select()
     .from(filesTable)
     .where(eq(filesTable.parent, folder))
-    .orderBy(filesTable.createdAt);
+    .orderBy(desc(filesTable.createdAt));
 }
 
 export async function getBreadCrumbs(folderId: number) {

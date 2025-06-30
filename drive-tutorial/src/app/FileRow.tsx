@@ -1,4 +1,6 @@
 import { FileIcon } from "lucide-react";
+import { MenuItem } from "~/components/MenuItem";
+import { formatter } from "~/lib/utils";
 import type { File } from "~/server/db/schema";
 
 const FILE_WEIGHTS = {
@@ -23,7 +25,7 @@ export default function FileRow({ file }: { file: File }) {
   const [unit, size] = prev;
 
   return (
-    <li className="border-b border-gray-700 px-6 py-4 hover:bg-gray-700">
+    <li className="border-b border-gray-700 px-6 py-4 hover:bg-gray-700/25">
       <div className="grid grid-cols-12 items-center gap-4">
         <div className="col-span-6 flex items-center">
           <a
@@ -35,9 +37,14 @@ export default function FileRow({ file }: { file: File }) {
             {file.name}
           </a>
         </div>
-        <div className="col-span-3 text-gray-400">{"File"}</div>
         <div className="col-span-3 text-gray-400">
+          {formatter.format(file.createdAt)}
+        </div>
+        <div className="col-span-2 text-gray-400">
           {Math.ceil(file.size / size)} {unit}
+        </div>
+        <div className="col-span-1 flex justify-end text-gray-400">
+          <MenuItem />
         </div>
       </div>
     </li>
