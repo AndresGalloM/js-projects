@@ -50,7 +50,7 @@ export default function ContentDrive({
             }}
           />
         </header>
-        <RightClickMenu>
+        <RightClickMenu folderId={currentFolderId}>
           <div>
             <div className="mb-6 flex items-center justify-between">
               <div className="flex items-center">

@@ -119,6 +119,10 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+.focus-within\:ring-2:focus-within {
+  --tw-ring-offset-shadow: 0 0 0 0 var(--tw-ring-offset-width);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
