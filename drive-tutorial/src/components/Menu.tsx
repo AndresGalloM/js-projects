@@ -27,7 +27,7 @@ export function Menu({ type, folderId }: { type: MenuType; folderId: number }) {
       )}
 
       <Portal>
-        <Content>
+        <Content align="start" side="right">
           <Group>
             <Item
               onClick={() => {

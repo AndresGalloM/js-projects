@@ -12,14 +12,23 @@ import {
 } from "./ui/context-menu";
 import { MenuType } from "./Menu";
 
-type Components = {
-  Portal: typeof ContextMenuPortal;
-  Content: typeof ContextMenuContent;
-  Group: typeof ContextMenuGroup;
-  Item: typeof ContextMenuItem;
-};
+type Components<T extends MenuType> = T extends MenuType.context
+  ? {
+      Portal: typeof ContextMenuPortal;
+      Content: typeof ContextMenuContent;
+      Group: typeof ContextMenuGroup;
+      Item: typeof ContextMenuItem;
+    }
+  : {
+      Portal: typeof DropdownMenuPortal;
+      Content: typeof DropdownMenuContent;
+      Group: typeof DropdownMenuGroup;
+      Item: typeof DropdownMenuItem;
+    };
 
-export function getMenuComponents(type: MenuType): Components {
+export function getMenuComponents<T extends MenuType>(
+  type: MenuType,
+): Components<T> {
   if (type === MenuType.context) {
     return {
       Portal: ContextMenuPortal,
