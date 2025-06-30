@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { insertFolder } from "./db/queries";
+import { insertFolder, removeFolderDB } from "./db/queries";
 import { z } from "zod";
 
 const schema = z.object({
@@ -31,4 +31,10 @@ export async function createFolder(
   await insertFolder(newFolder);
 
   return { message: "", call: true };
+}
+
+export async function removeFolder(folderId: number) {
+  const [response] = await removeFolderDB(folderId);
+
+  return response.affectedRows;
 }

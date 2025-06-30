@@ -59,6 +59,10 @@ export async function insertFile(file: Omit<File, "id" | "createdAt">) {
   return await db.insert(filesTable).values({ ...file });
 }
 
+export async function removeFile(fileId: number) {
+  return await db.delete(filesTable).where(eq(filesTable.id, fileId));
+}
+
 export async function insertFolder(folder: Omit<Folder, "id" | "createdAt">) {
   const [newFolder] = await db
     .insert(foldersTable)
@@ -66,4 +70,8 @@ export async function insertFolder(folder: Omit<Folder, "id" | "createdAt">) {
     .$returningId();
 
   return newFolder?.id;
+}
+
+export async function removeFolderDB(folderId: number) {
+  return await db.delete(foldersTable).where(eq(foldersTable.id, folderId));
 }

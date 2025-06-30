@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
-export function MenuItem() {
+export function MenuItem({ remove }: { remove: () => void }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,7 +25,7 @@ export function MenuItem() {
             <Pencil />
             Change name
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={remove}>
             <Trash />
             Delete
           </DropdownMenuItem>
