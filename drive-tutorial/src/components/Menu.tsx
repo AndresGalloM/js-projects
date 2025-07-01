@@ -3,7 +3,7 @@ import { getMenuComponents } from "./MenuComponents";
 import { UploadButton } from "./UploadThing";
 import { useRouter } from "next/navigation";
 import { CreateFolder } from "./CreateFolder";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export enum MenuType {
   "context",
@@ -12,6 +12,7 @@ export enum MenuType {
 
 export function Menu({ type, folderId }: { type: MenuType; folderId: number }) {
   const { Portal, Content, Group, Item } = getMenuComponents(type);
+  const inputRef = useRef<HTMLDivElement>(null);
   const navigator = useRouter();
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -26,6 +27,35 @@ export function Menu({ type, folderId }: { type: MenuType; folderId: number }) {
         <CreateFolder open={openDialog} close={closeDialog} parent={folderId} />
       )}
 
+      <UploadButton
+        endpoint={"imageUploader"}
+        input={{ folderId }}
+        content={{
+          button: <div ref={inputRef}></div>,
+        }}
+        appearance={{
+          allowedContent: {
+            display: "none",
+          },
+          button: {
+            background: "transparent",
+            height: "auto",
+            display: "block",
+            color: "inherit",
+          },
+          container: {
+            padding: 0,
+            display: "none",
+          },
+        }}
+        onClientUploadComplete={() => {
+          navigator.refresh();
+        }}
+        onUploadError={() => {
+          console.log("Error something went wrong");
+        }}
+      />
+
       <Portal>
         <Content align="start" side="right">
           <Group>
@@ -34,39 +64,22 @@ export function Menu({ type, folderId }: { type: MenuType; folderId: number }) {
                 setOpenDialog(true);
               }}
             >
-              <FolderPlus />
-              Create folder
+              <>
+                <FolderPlus />
+                Create folder
+              </>
             </Item>
-            <Item className="p-0">
-              <UploadButton
-                endpoint={"imageUploader"}
-                input={{ folderId }}
-                content={{
-                  button: (
-                    <Item>
-                      <FileUp />
-                      Upload file
-                    </Item>
-                  ),
-                }}
-                appearance={{
-                  allowedContent: {
-                    display: "none",
-                  },
-                  button: {
-                    background: "transparent",
-                    height: "auto",
-                    display: "block",
-                    color: "inherit",
-                  },
-                  container: {
-                    padding: 0,
-                  },
-                }}
-                onClientUploadComplete={() => {
-                  navigator.refresh();
-                }}
-              />
+            <Item
+              onClick={() => {
+                if (!inputRef.current) return;
+                const input = inputRef.current
+                  .previousSibling as HTMLInputElement;
+
+                input.click();
+              }}
+            >
+              <FileUp />
+              Upload file
             </Item>
           </Group>
         </Content>
