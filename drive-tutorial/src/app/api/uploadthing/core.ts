@@ -39,6 +39,7 @@ export const ourFileRouter = {
 
       await insertFile({
         name: file.name,
+        key: file.key,
         size: file.size,
         url: file.ufsUrl,
         parent: metadata.folderId,

@@ -1,28 +1,27 @@
 import { FileIcon } from "lucide-react";
+import { redirect, useRouter } from "next/navigation";
 import { MenuItem } from "~/components/MenuItem";
-import { formatter } from "~/lib/utils";
+import { fileSize, formatter } from "~/lib/utils";
+import { removeFile } from "~/server/actions";
 import type { File } from "~/server/db/schema";
 
-const FILE_WEIGHTS = {
-  B: 1,
-  KB: 1024,
-  MB: 1024 * 1024,
-  GB: 1024 * 1024 * 1024,
-  TB: 1024 * 1024 * 1024 * 1024,
-};
-
-type Unit = keyof typeof FILE_WEIGHTS;
-
 export default function FileRow({ file }: { file: File }) {
-  let prev: [Unit, number] = ["B", 1];
-  Object.entries(FILE_WEIGHTS).filter(([key, value]) => {
-    if (file.size < value) {
-      return prev;
-    }
-    prev = [key as Unit, value];
-  });
+  const navigator = useRouter();
+  const [unit, size] = fileSize(file.size);
 
-  const [unit, size] = prev;
+  const deleteFile = async () => {
+    try {
+      const affectedRows = await removeFile(file.id);
+
+      if (affectedRows) {
+        navigator.refresh();
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === "Unauthorized") return redirect("/");
+      }
+    }
+  };
 
   return (
     <li className="border-b border-gray-700 px-6 py-4 hover:bg-gray-700/25">
@@ -41,10 +40,10 @@ export default function FileRow({ file }: { file: File }) {
           {formatter.format(file.createdAt)}
         </div>
         <div className="col-span-2 text-gray-400">
-          {Math.ceil(file.size / size)} {unit}
+          {size} {unit}
         </div>
         <div className="col-span-1 flex justify-end text-gray-400">
-          <MenuItem />
+          <MenuItem remove={deleteFile} />
         </div>
       </div>
     </li>

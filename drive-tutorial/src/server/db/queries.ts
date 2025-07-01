@@ -10,11 +10,11 @@ export function foldersPromise(folder: number) {
     .orderBy(desc(foldersTable.createdAt));
 }
 
-export function filesPromise(folder: number) {
+export function filesPromise(file: number) {
   return db
     .select()
     .from(filesTable)
-    .where(eq(filesTable.parent, folder))
+    .where(eq(filesTable.parent, file))
     .orderBy(desc(filesTable.createdAt));
 }
 
@@ -55,11 +55,20 @@ export async function getFolderById(folderId: number) {
   return folder;
 }
 
+export async function getFileById(fileId: number) {
+  const [file] = await db
+    .select()
+    .from(filesTable)
+    .where(eq(filesTable.id, fileId));
+
+  return file;
+}
+
 export async function insertFile(file: Omit<File, "id" | "createdAt">) {
   return await db.insert(filesTable).values({ ...file });
 }
 
-export async function removeFile(fileId: number) {
+export async function removeFileDB(fileId: number) {
   return await db.delete(filesTable).where(eq(filesTable.id, fileId));
 }
 

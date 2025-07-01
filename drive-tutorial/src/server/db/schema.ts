@@ -17,6 +17,7 @@ export const filesTable = createTable(
   {
     id: bigint({ mode: "number" }).primaryKey().autoincrement(),
     name: varchar({ length: 255 }).notNull(),
+    key: varchar({ length: 255 }).notNull(),
     size: int().notNull(),
     url: text().notNull(),
     parent: bigint({ mode: "number" }).notNull(),
