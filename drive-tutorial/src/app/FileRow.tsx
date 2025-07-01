@@ -24,7 +24,7 @@ export default function FileRow({ file }: { file: File }) {
   };
 
   return (
-    <li className="border-b border-gray-700 px-6 py-4 hover:bg-gray-700/25">
+    <li className="border-b border-gray-700 px-6 py-4 last:border-b-0 hover:bg-gray-700/25">
       <div className="grid grid-cols-12 items-center gap-4">
         <div className="col-span-6 flex items-center">
           <a
