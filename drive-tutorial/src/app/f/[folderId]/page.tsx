@@ -19,16 +19,13 @@ export default async function Drive({
   const { data: folder, error } = z.coerce.number().safeParse(folderId);
 
   if (error) {
-    //Do something
-    return;
+    throw new Error("Invalid folder id");
   }
 
   const existFolder = await getFolderById(folder);
 
   if (!existFolder) {
-    // Handle the case where the folder does not exist
-    console.log("Folder not found:", folder);
-    return;
+    throw new Error("Folder not found");
   }
 
   const [rootId, breadCrumbs, folders, files] = await Promise.all([
