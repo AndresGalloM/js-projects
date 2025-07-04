@@ -1,4 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 import ContentDrive from "~/app/ContentDrive";
 import {
@@ -16,20 +17,23 @@ export default async function Drive({
 }) {
   const { userId } = await auth();
   const { folderId } = await params;
-  const { data: folder, error } = z.coerce.number().safeParse(folderId);
 
+  if (!userId) {
+    return redirect("/");
+  }
+
+  const { data: folder, error } = z.coerce.number().safeParse(folderId);
   if (error) {
     throw new Error("Invalid folder id");
   }
 
-  const existFolder = await getFolderById(folder);
-
+  const existFolder = await getFolderById(folder, userId);
   if (!existFolder) {
     throw new Error("Folder not found");
   }
 
   const [rootId, breadCrumbs, folders, files] = await Promise.all([
-    getRootFolderUser(userId!),
+    getRootFolderUser(userId),
     getBreadCrumbs(folder),
     foldersPromise(folder),
     filesPromise(folder),

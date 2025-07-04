@@ -59,11 +59,13 @@ export async function getRootFolderUser(userId: string) {
   return rootFolder?.id;
 }
 
-export async function getFolderById(folderId: number) {
+export async function getFolderById(folderId: number, userId: string) {
   const [folder] = await db
     .select()
     .from(foldersTable)
-    .where(eq(foldersTable.id, folderId));
+    .where(
+      and(eq(foldersTable.id, folderId), eq(foldersTable.ownerId, userId)),
+    );
 
   return folder;
 }
