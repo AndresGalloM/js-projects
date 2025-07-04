@@ -1,6 +1,19 @@
-import { and, desc, eq, isNull } from "drizzle-orm";
+import {
+  and,
+  desc,
+  eq,
+  inArray,
+  isNull,
+  type ExtractTablesWithRelations,
+} from "drizzle-orm";
 import { db } from ".";
 import { filesTable, foldersTable, type File, type Folder } from "./schema";
+import type { SingleStoreTransaction } from "drizzle-orm/singlestore-core";
+import type {
+  SingleStoreDriverPreparedQueryHKT,
+  SingleStoreDriverQueryResultHKT,
+} from "drizzle-orm/singlestore";
+import type * as schema from "./schema";
 
 export function foldersPromise(folder: number) {
   return db
@@ -81,6 +94,61 @@ export async function insertFolder(folder: Omit<Folder, "id" | "createdAt">) {
   return newFolder?.id;
 }
 
+// async function removeFoldersFolders(folderId: number) {
+//   await db.delete(foldersTable).where(eq(foldersTable.parent, folderId));
+// }
+
+// async function removeFoldersFiles(fileId: number) {
+//   await db.delete(filesTable).where(eq(filesTable.parent, fileId));
+// }
+
+async function getSubFolders(
+  folderId: number,
+  tx: SingleStoreTransaction<
+    SingleStoreDriverQueryResultHKT,
+    SingleStoreDriverPreparedQueryHKT,
+    typeof schema,
+    ExtractTablesWithRelations<typeof schema>
+  >,
+) {
+  const subFolders: number[] = [];
+
+  const response = await tx
+    .select({ id: foldersTable.id })
+    .from(foldersTable)
+    .where(eq(foldersTable.parent, folderId));
+
+  const folders = response.map((folder) => folder.id);
+
+  for (const id of folders) {
+    subFolders.push(...(await getSubFolders(id, tx)));
+  }
+
+  subFolders.push(...folders);
+  return subFolders;
+}
+
 export async function removeFolderDB(folderId: number) {
-  return await db.delete(foldersTable).where(eq(foldersTable.id, folderId));
+  const response = await db.transaction(async (tx) => {
+    const subFolders = await getSubFolders(folderId, tx);
+    subFolders.push(folderId);
+
+    const files = await tx
+      .select({ key: filesTable.key })
+      .from(filesTable)
+      .where(inArray(filesTable.parent, subFolders));
+
+    await tx.delete(filesTable).where(inArray(filesTable.parent, subFolders));
+    await tx
+      .delete(foldersTable)
+      .where(inArray(foldersTable.parent, subFolders));
+
+    const [response] = await tx
+      .delete(foldersTable)
+      .where(eq(foldersTable.id, folderId));
+
+    return { files: files.map((file) => file.key), response };
+  });
+
+  return response;
 }

@@ -41,8 +41,17 @@ export async function createFolder(
   return { message: "", call: true };
 }
 
+export async function deleteFileService(files: string | string[]) {
+  const { success, deletedCount } = await utApi.deleteFiles(files);
+  if (!success || !deletedCount) throw new Error("Error try later");
+}
+
 export async function removeFolder(folderId: number) {
-  const [response] = await removeFolderDB(folderId);
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const { files, response } = await removeFolderDB(folderId);
+  await deleteFileService(files);
 
   return response.affectedRows;
 }
@@ -54,10 +63,8 @@ export async function removeFile(fileId: number) {
   const file = await getFileById(fileId);
   if (!file) throw new Error("File not found");
 
-  const { success, deletedCount } = await utApi.deleteFiles(file.key);
-  if (!success || !deletedCount) throw new Error("Error try later");
-
   const [response] = await removeFileDB(fileId);
+  await deleteFileService(file.key);
 
   return response.affectedRows;
 }

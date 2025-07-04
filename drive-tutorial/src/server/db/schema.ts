@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   index,
   int,
@@ -48,6 +49,25 @@ export const foldersTable = createTable(
     ];
   },
 );
+
+export const foldersRelations = relations(foldersTable, ({ many }) => ({
+  folders: many(foldersTable),
+  files: many(filesTable),
+}));
+
+export const folderRelations = relations(foldersTable, ({ one }) => ({
+  parent: one(foldersTable, {
+    fields: [foldersTable.parent],
+    references: [foldersTable.id],
+  }),
+}));
+
+export const filesRelations = relations(filesTable, ({ one }) => ({
+  parent: one(foldersTable, {
+    fields: [filesTable.parent],
+    references: [foldersTable.id],
+  }),
+}));
 
 export type File = typeof filesTable.$inferSelect;
 export type Folder = typeof foldersTable.$inferSelect;

@@ -1,6 +1,6 @@
 import { Folder as FolderIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { MenuItem } from "~/components/MenuItem";
 import { formatter } from "~/lib/utils";
 import { removeFolder } from "~/server/actions";
@@ -9,10 +9,16 @@ import type { Folder } from "~/server/db/schema";
 export default function FolderRow({ folder }: { folder: Folder }) {
   const navigator = useRouter();
   const deleteFolder = async () => {
-    const affectedRows = await removeFolder(folder.id);
+    try {
+      const affectedRows = await removeFolder(folder.id);
 
-    if (affectedRows) {
-      navigator.refresh();
+      if (affectedRows) {
+        navigator.refresh();
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === "Unauthorized") return redirect("/");
+      }
     }
   };
 
