@@ -5,9 +5,7 @@ import FileRow from "./FileRow";
 import type { Folder, File } from "~/server/db/schema";
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
-
 import { ChevronRight } from "lucide-react";
-
 import { MenuNewThing } from "~/components/MenuNewThing";
 import { RightClickMenu } from "~/components/RightClickMenu";
 import EmptyFolder from "~/components/EmptyFolder";
@@ -28,7 +26,7 @@ export default function ContentDrive({
   return (
     <div className="min-h-screen bg-gray-900 p-8 text-gray-100">
       <div className="mx-auto max-w-6xl">
-        <header className="mb-8 flex items-center justify-between">
+        <header className="mb-10 flex items-center justify-between">
           <MenuNewThing folderId={currentFolderId} />
 
           <UserButton
@@ -52,7 +50,7 @@ export default function ContentDrive({
           />
         </header>
         <RightClickMenu folderId={currentFolderId}>
-          <div>
+          <div className="flex flex-col">
             <div className="mb-6 flex items-center justify-between">
               <div className="flex items-center">
                 <Link
@@ -63,7 +61,7 @@ export default function ContentDrive({
                 </Link>
                 {breadCrumbs.map((folder) => (
                   <div key={folder.id} className="flex items-center">
-                    <ChevronRight className="m-2 text-gray-400" size={16} />
+                    <ChevronRight className="mx-2 text-gray-400" size={16} />
                     <Link
                       href={`/f/${folder.id}`}
                       className="e text-gray-300 hover:text-white"
