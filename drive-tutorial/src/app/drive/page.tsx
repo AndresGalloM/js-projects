@@ -13,7 +13,7 @@ export default async function Drive() {
   const root = await getRootFolderUser(userId);
 
   if (!root) {
-    return redirect(`/f/${await onBoarding()}`);
+    return redirect(await onBoarding());
   }
 
   return redirect(`/f/${root}`);
