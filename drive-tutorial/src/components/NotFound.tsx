@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function NotFoundError() {
   return (
-    <div className="mt-[7%] flex flex-col">
+    <div className="mt-[7%] flex flex-col text-gray-100">
       <div className="mx-auto max-w-6xl">
         <Link href="/" className="flex items-center gap-2">
           <ArrowLeft /> Home
