@@ -1,14 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import ContentDrive from "~/app/ContentDrive";
-import {
-  filesPromise,
-  foldersPromise,
-  getBreadCrumbs,
-  getFolderById,
-  getRootFolderUser,
-} from "~/server/db/queries";
+import ContentDrive from "~/app/f/[folderId]/ContentDrive";
+import { getFolderById } from "~/server/db/queries";
 
 export default async function Drive({
   params,
@@ -32,20 +26,5 @@ export default async function Drive({
     throw new Error("Folder not found");
   }
 
-  const [rootId, breadCrumbs, folders, files] = await Promise.all([
-    getRootFolderUser(userId),
-    getBreadCrumbs(folder),
-    foldersPromise(folder),
-    filesPromise(folder),
-  ]);
-
-  return (
-    <ContentDrive
-      rootFolderId={rootId!}
-      currentFolderId={folder}
-      breadCrumbs={breadCrumbs}
-      folders={folders}
-      files={files}
-    />
-  );
+  return <ContentDrive currentFolderId={folder} />;
 }

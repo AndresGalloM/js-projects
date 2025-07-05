@@ -1,3 +1,5 @@
+"use client";
+
 import { FileUp, FolderPlus } from "lucide-react";
 import { getMenuComponents } from "./MenuComponents";
 import { UploadButton } from "./UploadThing";

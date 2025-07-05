@@ -2,7 +2,11 @@
 
 import { auth } from "@clerk/nextjs/server";
 import {
+  filesPromise,
+  foldersPromise,
+  getBreadCrumbs,
   getFileById,
+  getRootFolderUser,
   insertFolder,
   removeFileDB,
   removeFolderDB,
@@ -67,4 +71,18 @@ export async function removeFile(fileId: number) {
   await deleteFileService(file.key);
 
   return response.affectedRows;
+}
+
+export async function getInfo(folderId: number) {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const [rootId, breadCrumbs, folders, files] = await Promise.all([
+    getRootFolderUser(userId),
+    getBreadCrumbs(folderId),
+    foldersPromise(folderId),
+    filesPromise(folderId),
+  ]);
+
+  return { rootId, breadCrumbs, folders, files };
 }

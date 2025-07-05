@@ -1,3 +1,5 @@
+"use client";
+
 import { Folder as FolderIcon } from "lucide-react";
 import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";

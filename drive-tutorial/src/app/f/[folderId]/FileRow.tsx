@@ -1,3 +1,5 @@
+"use client";
+
 import { FileIcon } from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
 import { MenuItem } from "~/components/MenuItem";

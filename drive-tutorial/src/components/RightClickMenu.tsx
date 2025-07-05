@@ -1,3 +1,5 @@
+"use client";
+
 import { type JSX } from "react";
 import { Menu, MenuType } from "./Menu";
 import { ContextMenu, ContextMenuTrigger } from "./ui/context-menu";
