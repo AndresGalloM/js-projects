@@ -2,6 +2,7 @@
 
 import { FileIcon } from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { MenuItem } from "~/components/MenuItem";
 import { fileSize, formatter } from "~/lib/utils";
 import { removeFile } from "~/server/actions";
@@ -13,11 +14,22 @@ export default function FileRow({ file }: { file: File }) {
 
   const deleteFile = async () => {
     try {
-      const affectedRows = await removeFile(file.id);
+      toast.promise(removeFile(file.id), {
+        loading: "Deleting...",
+        success: (affectedRows) => {
+          if (affectedRows) {
+            navigator.refresh();
+            return {
+              message: "Deleted file",
+            };
+          }
 
-      if (affectedRows) {
-        navigator.refresh();
-      }
+          return {
+            message: "The folder couldn't be deleted",
+          };
+        },
+        error: "Unexpected error",
+      });
     } catch (error) {
       if (error instanceof Error) {
         if (error.message === "Unauthorized") return redirect("/");

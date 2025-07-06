@@ -3,6 +3,7 @@
 import { Folder as FolderIcon } from "lucide-react";
 import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { MenuItem } from "~/components/MenuItem";
 import { formatter } from "~/lib/utils";
 import { removeFolder } from "~/server/actions";
@@ -12,11 +13,22 @@ export default function FolderRow({ folder }: { folder: Folder }) {
   const navigator = useRouter();
   const deleteFolder = async () => {
     try {
-      const affectedRows = await removeFolder(folder.id);
+      toast.promise(removeFolder(folder.id), {
+        loading: "Deleting...",
+        success: (affectedRows) => {
+          if (affectedRows) {
+            navigator.refresh();
+            return {
+              message: "Deleted folder",
+            };
+          }
 
-      if (affectedRows) {
-        navigator.refresh();
-      }
+          return {
+            message: "The folder couldn't be deleted",
+          };
+        },
+        error: "Unexpected error",
+      });
     } catch (error) {
       if (error instanceof Error) {
         if (error.message === "Unauthorized") return redirect("/");
