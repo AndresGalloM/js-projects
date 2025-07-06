@@ -22,7 +22,7 @@ const schema = z.object({
 });
 
 export async function createFolder(
-  _: { message: string } | null,
+  _: { success: boolean; message: string } | null,
   queryData: FormData,
 ) {
   const { userId } = await auth();
@@ -31,7 +31,7 @@ export async function createFolder(
   const { data: folder, error } = schema.safeParse(data);
 
   if (error) {
-    return { message: error.issues[0]!.message, call: true };
+    return { success: false, message: error.issues[0]!.message };
   }
 
   const newFolder = {
@@ -42,7 +42,7 @@ export async function createFolder(
 
   await insertFolder(newFolder);
 
-  return { message: "", call: true };
+  return { success: true, message: "The folder has been created" };
 }
 
 export async function deleteFileService(files: string | string[]) {
@@ -55,7 +55,7 @@ export async function removeFolder(folderId: number) {
   if (!userId) throw new Error("Unauthorized");
 
   const { files, response } = await removeFolderDB(folderId);
-  await deleteFileService(files);
+  if (files.length) await deleteFileService(files);
 
   return response.affectedRows;
 }
