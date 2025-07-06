@@ -6,6 +6,7 @@ import { UploadButton } from "./UploadThing";
 import { useRouter } from "next/navigation";
 import { CreateFolder } from "./CreateFolder";
 import { useRef, useState } from "react";
+import { toast } from "sonner";
 
 export enum MenuType {
   "context",
@@ -18,6 +19,7 @@ export function Menu({ type, folderId }: { type: MenuType; folderId: number }) {
   const navigator = useRouter();
 
   const [openDialog, setOpenDialog] = useState(false);
+  const [toastId, setToastId] = useState<string | number>("");
 
   const closeDialog = () => {
     setOpenDialog(false);
@@ -50,11 +52,16 @@ export function Menu({ type, folderId }: { type: MenuType; folderId: number }) {
             display: "none",
           },
         }}
+        onUploadBegin={() => {
+          setToastId(toast.loading("Uploading..."));
+        }}
         onClientUploadComplete={() => {
+          toast.dismiss(toastId);
+          toast.success("Uploaded file");
           navigator.refresh();
         }}
         onUploadError={() => {
-          console.log("Error something went wrong");
+          toast.error("Error something went wrong");
         }}
       />
 
