@@ -12,7 +12,7 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { Input } from "./ui/input";
-import { useActionState, useEffect } from "react";
+import { useActionState } from "react";
 import { createFolder } from "~/server/actions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -27,7 +27,7 @@ export function CreateFolder({
   close: () => void;
 }) {
   const navigator = useRouter();
-  const [state, formAction, loading] = useActionState(
+  const [, formAction, loading] = useActionState(
     async (
       prevState: { success: boolean; message: string } | null,
       queryData: FormData,
